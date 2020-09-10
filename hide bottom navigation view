@@ -1,0 +1,54 @@
+package com.example.goopets.ui.HomeActivity;
+
+import android.os.Bundle;
+import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+
+import com.example.goopets.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+public class HomeActivity extends AppCompatActivity implements NavController.OnDestinationChangedListener {
+    AppBarConfiguration appBarConfiguration;
+    BottomNavigationView navView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+        navView = findViewById(R.id.nav_view);
+//        navView.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.blue_facebook)));
+//        navView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.blue_facebook)));
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        appBarConfiguration = new AppBarConfiguration.Builder(R.id.home_fragment, R.id.navigation_messages, R.id.navigation_account).build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment2);
+        // NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(navView, navController);
+        //  Navigation.findNavController(this,R.id.nav_host_fragment2).navigate(R.id.login1Fragment);
+
+        navController.addOnDestinationChangedListener(this);
+    }
+
+    @Override
+    public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
+        switch (destination.getId()) {
+            case R.id.home_fragment:
+            case R.id.shopFragment:
+            case R.id.sellBuyList:
+            case R.id.accoutProfileFragment:
+            case R.id.specialTrainerFragment:
+                navView.setVisibility(View.VISIBLE);
+                break;
+            default:
+                navView.setVisibility(View.GONE);
+        }
+    }
+}
